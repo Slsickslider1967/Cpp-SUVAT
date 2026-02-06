@@ -19,6 +19,7 @@ IMGUI_SOURCES = $(IMGUI_DIR)/imgui.cpp \
                 $(IMGUI_DIR)/imgui_draw.cpp \
                 $(IMGUI_DIR)/imgui_tables.cpp \
                 $(IMGUI_DIR)/imgui_widgets.cpp \
+                $(IMGUI_DIR)/imgui_demo.cpp \
                 $(IMGUI_BACKEND_DIR)/imgui_impl_glfw.cpp \
                 $(IMGUI_BACKEND_DIR)/imgui_impl_opengl3.cpp
 
@@ -28,6 +29,7 @@ IMGUI_OBJECTS = $(BUILD_DIR)/imgui.o \
                 $(BUILD_DIR)/imgui_draw.o \
                 $(BUILD_DIR)/imgui_tables.o \
                 $(BUILD_DIR)/imgui_widgets.o \
+                $(BUILD_DIR)/imgui_demo.o \
                 $(BUILD_DIR)/imgui_impl_glfw.o \
                 $(BUILD_DIR)/imgui_impl_opengl3.o
 
@@ -59,6 +61,10 @@ $(BUILD_DIR)/imgui_tables.o: $(IMGUI_DIR)/imgui_tables.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 $(BUILD_DIR)/imgui_widgets.o: $(IMGUI_DIR)/imgui_widgets.cpp
+	@echo "Compiling $<..."
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
+$(BUILD_DIR)/imgui_demo.o: $(IMGUI_DIR)/imgui_demo.cpp
 	@echo "Compiling $<..."
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
