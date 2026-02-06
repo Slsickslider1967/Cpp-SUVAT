@@ -34,10 +34,10 @@ int main()
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();   //Getting input and output, simple to understand and use (ImGuiIO is a structure that holds the input and output data for ImGui)
 
-    ImGui::StyleColorsDark();
+    ImGui::StyleColorsDark();   //Setting style
 
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init(glsl_version);
+    ImGui_ImplGlfw_InitForOpenGL(window, true); //Initializing ImGui for GLFW and OpenGL3
+    ImGui_ImplOpenGL3_Init(glsl_version);   //Initializing ImGui for OpenGL3 with the specified GLSL version
 
     // Application state
     static int selectedVar = 0;
@@ -49,13 +49,14 @@ int main()
     static double result = 0.0;
     static bool calculated = false;
 
+    // Main loop
     while (!glfwWindowShouldClose(window))
     {
-        glfwPollEvents();
+        glfwPollEvents();   //User Input
 
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();   //Start new ImGui frame for OpenGL3
+        ImGui_ImplGlfw_NewFrame();      //Start new ImGui frame for GLFW
+        ImGui::NewFrame();          //Start new ImGui frame
 
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowSize(io.DisplaySize);
@@ -71,20 +72,19 @@ int main()
         ImGui::Separator();
         ImGui::Text("Enter known values (use 'x' or 'X' for unknown):");
 
-        if (selectedVar != 0) ImGui::InputText("S", inputS, IM_ARRAYSIZE(inputS));
-        if (selectedVar != 1) ImGui::InputText("U", inputU, IM_ARRAYSIZE(inputU));
-        if (selectedVar != 2) ImGui::InputText("V", inputV, IM_ARRAYSIZE(inputV));
-        if (selectedVar != 3) ImGui::InputText("A", inputA, IM_ARRAYSIZE(inputA));
-        if (selectedVar != 4) ImGui::InputText("T", inputT, IM_ARRAYSIZE(inputT));
-
+        if (selectedVar != 0) ImGui::InputText("S##Input", inputS, IM_ARRAYSIZE(inputS));
+        if (selectedVar != 1) ImGui::InputText("U##Input", inputU, IM_ARRAYSIZE(inputU));
+        if (selectedVar != 2) ImGui::InputText("V##Input", inputV, IM_ARRAYSIZE(inputV));
+        if (selectedVar != 3) ImGui::InputText("A##Input", inputA, IM_ARRAYSIZE(inputA));
+        if (selectedVar != 4) ImGui::InputText("T##Input", inputT, IM_ARRAYSIZE(inputT));
         ImGui::Separator();
 
-        if (ImGui::Button("Calculate", ImVec2(120, 40)))
+        if (ImGui::Button("Calculate##CalculateBtn", ImVec2(120, 40)))
         {
             try {
                 switch (selectedVar)
                 {
-                case 0: // Calculate S
+                case 0: // Calculate S`
                     result = calculateS(string(inputU), string(inputV), string(inputA), string(inputT));
                     break;
                 case 1: // Calculate U
@@ -109,7 +109,7 @@ int main()
         }
 
         ImGui::SameLine();
-        if (ImGui::Button("Clear", ImVec2(120, 40)))
+        if (ImGui::Button("Clear##ClearBtn", ImVec2(120, 40)))
         {
             memset(inputS, 0, sizeof(inputS));
             memset(inputU, 0, sizeof(inputU));
@@ -122,13 +122,12 @@ int main()
 
         if (calculated)
         {
-            ImGui::Separator();
             ImGui::Text("Result: %.4f", result);
         }
 
         ImGui::End();
 
-        ImGui::Render();
+        ImGui::Render();   //Render ImGui frame
         int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
@@ -139,9 +138,10 @@ int main()
         glfwSwapBuffers(window);
     }
 
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+    //Cleans up and exits
+    ImGui_ImplOpenGL3_Shutdown();   //Shutdown ImGui for OpenGL3
+    ImGui_ImplGlfw_Shutdown();  //Shutdown ImGui for OpenGL3 and GLFW
+    ImGui::DestroyContext();    //Destroy ImGui context
 
     glfwDestroyWindow(window);
     glfwTerminate();
