@@ -21,6 +21,7 @@ int main()
     const char* glsl_version = "#version 130";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_DECORATED, GLFW_FALSE); // Remove window borders and title bar
 
     GLFWwindow* window = glfwCreateWindow(1280, 800, "SUVAT Calculator", NULL, NULL);
     if (window == NULL)
@@ -48,6 +49,7 @@ int main()
     static char inputT[64] = "";
     static double result = 0.0;
     static bool calculated = false;
+    static bool duelMode = false;
 
     // Main loop
     while (!glfwWindowShouldClose(window))
@@ -65,12 +67,30 @@ int main()
         ImGui::Text("Welcome to the SUVAT Calculator!");
         ImGui::Separator();
 
+        ImGui::Checkbox("Duel Mode (Calculate two variables at once)", &duelMode);
+        if (duelMode)        {
+            ImGui::Text("Duel Mode is currently under development. Please check back later for updates.");
+            ImGui::End();
+            ImGui::Render();   //Render ImGui frame
+            int display_w, display_h;
+            glfwGetFramebufferSize(window, &display_w, &display_h);
+            glViewport(0, 0, display_w, display_h);
+            glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
+            glClear(GL_COLOR_BUFFER_BIT);
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            glfwSwapBuffers(window);
+            continue;
+        }
+
+        ImGui::Separator();
         ImGui::Text("Select the variable to calculate:");
         const char* variables[] = { "S (Displacement)", "U (Initial Velocity)", "V (Final Velocity)", "A (Acceleration)", "T (Time)" };
         ImGui::Combo("Calculate", &selectedVar, variables, IM_ARRAYSIZE(variables));
 
         ImGui::Separator();
         ImGui::Text("Enter known values (use 'x' or 'X' for unknown):");
+
+        //Im_ArraySize is a macro that calculates the number of elements in an array, it is defined as #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*(_ARR))))
 
         if (selectedVar != 0) ImGui::InputText("S##Input", inputS, IM_ARRAYSIZE(inputS));
         if (selectedVar != 1) ImGui::InputText("U##Input", inputU, IM_ARRAYSIZE(inputU));
@@ -111,6 +131,7 @@ int main()
         ImGui::SameLine();
         if (ImGui::Button("Clear##ClearBtn", ImVec2(120, 40)))
         {
+            //Memset, Memeory reset, sets the first n bytes of the block of memory pointed by ptr to the specified value (interpreted as an unsigned char) and returns a pointer to the block of memory.
             memset(inputS, 0, sizeof(inputS));
             memset(inputU, 0, sizeof(inputU));
             memset(inputV, 0, sizeof(inputV));

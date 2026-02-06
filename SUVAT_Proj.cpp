@@ -169,9 +169,16 @@ double calculateT(string s, string u, string v, string a)
     //when U is unknown
     else if (S != 0 && V != 0 && A != 0 && u == "x")
         return sqrt((2 * S) / A) - (V / A);  
-    //when V is unknown
+    //when V is unknown - use quadratic formula: S = Ut + 0.5*A*t^2
+    // Rearranged: 0.5*A*t^2 + U*t - S = 0
+    // t = (-U + sqrt(U^2 + 2*A*S)) / A
     else if (S != 0 && U != 0 && A != 0 && v == "x")
-        return sqrt((2 * S) / A) - (U / A);
+    {
+        double discriminant = U * U + 2 * A * S;
+        if (discriminant < 0)
+            return 0; // No real solution
+        return (-U + sqrt(discriminant)) / A;
+    }
     //when A is unknown 
     else if (S != 0 && U != 0 && V != 0 && a == "x")
         return sqrt((2 * S) / ((V * V - U * U) / (2 * S))) - (U / ((V * V - U * U) / (2 * S)));
