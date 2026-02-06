@@ -1,4 +1,6 @@
 {
+  "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+  "C_Cpp_Runner.enableCodeRunner": false,
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
   "C_Cpp_Runner.debuggerPath": "gdb",
@@ -36,8 +38,15 @@
   "C_Cpp_Runner.enableWarnings": true,
   "C_Cpp_Runner.warningsAsError": false,
   "C_Cpp_Runner.compilerArgs": [],
-  "C_Cpp_Runner.linkerArgs": [],
-  "C_Cpp_Runner.includePaths": [],
+  "C_Cpp_Runner.linkerArgs": [
+    "-lglfw",
+    "-lGL",
+    "-ldl"
+  ],
+  "C_Cpp_Runner.includePaths": [
+    "${workspaceFolder}/imgui",
+    "${workspaceFolder}/imgui/backends"
+  ],
   "C_Cpp_Runner.includeSearch": [
     "*",
     "**/*"
@@ -48,7 +57,9 @@
     "**/.*",
     "**/.*/**",
     "**/.vscode",
-    "**/.vscode/**"
+    "**/.vscode/**",
+    "**/imgui",
+    "**/imgui/**"
   ],
   "C_Cpp_Runner.useAddressSanitizer": false,
   "C_Cpp_Runner.useUndefinedSanitizer": false,

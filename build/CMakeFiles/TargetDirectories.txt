@@ -1,0 +1,3 @@
+/home/slickslider/Documents/Code/C++ SUVAT/build/CMakeFiles/suvat_gui.dir
+/home/slickslider/Documents/Code/C++ SUVAT/build/CMakeFiles/edit_cache.dir
+/home/slickslider/Documents/Code/C++ SUVAT/build/CMakeFiles/rebuild_cache.dir
